@@ -11,26 +11,26 @@ void DllInitializer(HMODULE hDllModule)
 			// Открываем просесс игры
 			if ((hGame = OpenProcess(PROCESS_ALL_ACCESS | PROCESS_VM_READ | PROCESS_VM_WRITE, FALSE, GetCurrentProcessId())))
 			{
-				WriteMemoryWORD(0x006B5B17, 0x026A);
+				FixGame::Initialize();
 
 				CloseHandle(hGame);
 				hGame = NULL;
 			}
 			else
 			{
-				Msg(_T("Ошибка при загрузке"), _T("[%s]\n не был выдан доступ к игре"), __WFILE__);
+				Msg(_T("Ошибка при загрузке"), _T("[%s]\nНе был выдан доступ к игре"), __WFILE__);
 				ExitProcess(1);
 			}
 		}
 		else
 		{
-			Msg(_T("Ошибка при загрузке"), _T("[%s]\n это не игра PlantsVsZombies\nИли DLL не совместима с этой версией игры"), __WFILE__);
+			Msg(_T("Ошибка при загрузке"), _T("[%s]\nЭто не игра PlantsVsZombies\nИли DLL не совместима с этой версией игры"), __WFILE__);
 			ExitProcess(1);
 		}
 	}
 	else
 	{
-		Msg(_T("Ошибка при загрузке"), _T("[%s]\n Плохое размещение DLL в памяти"), __WFILE__);
+		Msg(_T("Ошибка при загрузке"), _T("[%s]\nПлохое размещение DLL в памяти"), __WFILE__);
 		ExitProcess(1);
 	}
 }
