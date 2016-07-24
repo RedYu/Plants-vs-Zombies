@@ -1,11 +1,46 @@
 #include "stdafx.h"
 
+void DllInitializer(HMODULE hDllModule)
+{
+	// Проверка разположения нашей библиотеки 
+	if (((UINT64)hDllModule) < 0x7E000000 && ((UINT64)(&hGame)) < 0x7F000000)
+	{
+		// Провека игры PlantsVsZombies                
+		if (*((UINT64*)0x401000) == 0xAE76E8CE8B575553)
+		{
+			// Открываем просесс игры
+			if ((hGame = OpenProcess(PROCESS_ALL_ACCESS | PROCESS_VM_READ | PROCESS_VM_WRITE, FALSE, GetCurrentProcessId())))
+			{
+				WriteMemoryWORD(0x006B5B17, 0x026A);
+
+				CloseHandle(hGame);
+				hGame = NULL;
+			}
+			else
+			{
+				Msg(_T("Ошибка при загрузке"), _T("[%s]\n не был выдан доступ к игре"), __WFILE__);
+				ExitProcess(1);
+			}
+		}
+		else
+		{
+			Msg(_T("Ошибка при загрузке"), _T("[%s]\n это не игра PlantsVsZombies\nИли DLL не совместима с этой версией игры"), __WFILE__);
+			ExitProcess(1);
+		}
+	}
+	else
+	{
+		Msg(_T("Ошибка при загрузке"), _T("[%s]\n Плохое размещение DLL в памяти"), __WFILE__);
+		ExitProcess(1);
+	}
+}
+
 __declspec(dllexport) BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
 {
 	switch (ul_reason_for_call)
 	{
 	case DLL_PROCESS_ATTACH:
-		MessageBox(NULL, _T("DLL PROCESS ATTACH"), _T("DLL"), MB_OK | MB_ICONINFORMATION);
+		DllInitializer(hModule);
 		break;
 	case DLL_THREAD_ATTACH:
 	case DLL_THREAD_DETACH:
