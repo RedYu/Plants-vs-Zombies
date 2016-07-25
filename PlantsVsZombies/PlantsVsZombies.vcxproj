@@ -138,6 +138,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Creator.h" />
+    <ClInclude Include="CreatorEx.h" />
     <ClInclude Include="Enumerations.h" />
     <ClInclude Include="FixGame.h" />
     <ClInclude Include="Global.h" />
@@ -146,6 +148,8 @@
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Creator.cpp" />
+    <ClCompile Include="CreatorEx.cpp" />
     <ClCompile Include="dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
