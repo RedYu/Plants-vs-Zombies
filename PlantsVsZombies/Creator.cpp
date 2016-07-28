@@ -3,24 +3,48 @@
 
 Creator* g_Creator = NULL;
 
-void Creator::CreateSun(int a2, int a3, int a4, int a5)
+void Creator::CreateItem(int posX, int posY, ItemType item, ItemSpeed speed)
 {
-	typedef void(__thiscall *t)(Creator*, int, int, int, int);
+	typedef void(__thiscall *t)(Creator*, int, int, ItemType, ItemSpeed);
 	t f = (t)0x0040F400;
-	f(this, a2, a3, a4, a5);
+	f(this, posX, posY, item, speed);
 }
 
-
-int __stdcall Creator::sub_40D840(Creator* pCreator)
+int __cdecl Creator::GameRandom(int nRange)
 {
-	typedef int(__stdcall *t)(Creator*);
-	t f = (t)0x0040D840;
+	typedef unsigned int(__cdecl *t)(int);
+	t f = (t)0x005FF2A0;
+	return f(nRange);
+}
 
-	new (&pCreator->objCreatorEx) CreatorEx();
+LPVOID __fastcall Creator::Constructor(LPVOID lpPtr, LPVOID /* edx */, Creator* pCreator)
+{
+	typedef Creator*(__thiscall *t)(LPVOID, Creator*);
+	t f = (t)0x0040A3C0;
 
 	g_Creator = pCreator;
 
-	return f(pCreator);
+	Creator* pReturn = f(lpPtr, pCreator);
+	new (&pCreator->objCreatorEx) CreatorEx;
+
+	return pReturn;
 }
 
+Creator* __fastcall Creator::Destructor(Creator* pCreator, LPVOID /* edx */, bool bIsMemoryFreeUsed)
+{
+	if (g_Creator == pCreator)
+		g_Creator = NULL;
 
+	pCreator->objCreatorEx.~CreatorEx();
+	
+	typedef Creator*(__thiscall *t)(Creator*, bool);
+	t f = (t)0x0040AF10;
+	return f(pCreator, bIsMemoryFreeUsed);
+}
+
+void Creator::Initialize(void)
+{
+	WriteMemoryDWORD(0x004528CF, sizeof(Creator)); // patch new size
+	WriteInstructionCall(0x004528EE, (UINT)Creator::Constructor);
+	WriteMemoryDWORD(0x006E4D38, (UINT)Creator::Destructor);
+}

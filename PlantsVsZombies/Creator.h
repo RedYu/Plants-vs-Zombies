@@ -3,11 +3,16 @@
 
 class Creator
 {
-	Creator() {};
+	Creator() 
+	{};
 public:
-	static int __stdcall sub_40D840(Creator* pCreator);
+	static void Initialize(void);
 
-	void CreateSun(int a2, int a3, int a4, int a5);
+	static LPVOID __fastcall Constructor(LPVOID lpPtr, LPVOID, Creator* pCreator);
+	static Creator* __fastcall Destructor(Creator* pCreator, LPVOID, bool bIsMemoryFreeUsed);
+	static int __cdecl GameRandom(int nRange);
+
+	void CreateItem(int posX, int posY, ItemType item, ItemSpeed speed);
 
 	/* 000 */ virtual ~Creator() {}; // Помним что внутри объекта есть виртуальные функции, а значит по адресу 0000, лежит таблица виртуальных функций
 	/* 004 */
@@ -22,3 +27,4 @@ public:
 extern Creator* g_Creator;
 
 CompileTimeSizeCheck(Creator, 0x57E0);
+

@@ -1,14 +1,14 @@
 #pragma once
+#include "Creator.h"
+
 class CreatorEx
 {
 public:
 	CreatorEx();
 	~CreatorEx();
 
-	void Increment(void);
-
+	void PushSun(void);
 	unsigned long GetCountSuns(void) const;
-
 private:
 	unsigned long dwMyCountSuns;
 	bool bInit;

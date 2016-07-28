@@ -15,10 +15,19 @@ CreatorEx::~CreatorEx()
 }
 
 
-void CreatorEx::Increment(void)
+void CreatorEx::PushSun(void)
 {
-	if (this->bInit)
+	if (this->bInit && g_Creator)
+	{
 		this->dwMyCountSuns++;
+
+		POINT pos;
+
+		pos.x = Creator::GameRandom(550) + 100;
+		pos.y = 60;
+
+		g_Creator->CreateItem(pos.x, pos.y, Sun25, NORMAL);
+	}
 }
 
 unsigned long CreatorEx::GetCountSuns(void) const

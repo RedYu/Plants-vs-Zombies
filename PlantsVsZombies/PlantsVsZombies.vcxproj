@@ -143,6 +143,7 @@
     <ClInclude Include="Enumerations.h" />
     <ClInclude Include="FixGame.h" />
     <ClInclude Include="Global.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Structures.h" />
     <ClInclude Include="Utils.h" />
@@ -165,6 +166,7 @@
       </PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="FixGame.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="PlantsVsZombies.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

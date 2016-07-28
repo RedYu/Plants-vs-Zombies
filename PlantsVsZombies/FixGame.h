@@ -1,5 +1,6 @@
 #pragma once
 #include "Creator.h"
+#include "Item.h"
 
 class FixGame
 {
