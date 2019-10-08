@@ -14,12 +14,12 @@ public:
 
 	void CreateItem(int posX, int posY, ItemType item, ItemSpeed speed);
 
-	/* 000 */ virtual ~Creator() {}; // Помним что внутри объекта есть виртуальные функции, а значит по адресу 0000, лежит таблица виртуальных функций
+	/* 000 */ virtual ~Creator() {}; // Remember that inside the object there are virtual functions, which means that at address 0000, there is a table of virtual functions
 	/* 004 */
 
 
-	/* 0004 */ unsigned long __uUnkValue0004[0x15F6 - 1]; // 0x57D8u делим на 4 так как мы используем тип long, 
-														  //а 0x57D8u размер в байтах. -1 потому что первые 4 байта это указатель на таблицу виртуальных функций
+	/* 0004 */ unsigned long __uUnkValue0004[0x15F6 - 1]; // We divide 0x57D8u by 4 since we use the long type, 
+														  //and 0x57D8u is the size in bytes. -1 because the first 4 bytes is a pointer to a table of virtual functions
 	/* 57D8 */ CreatorEx objCreatorEx; 
 	/* 57E0 */
 };

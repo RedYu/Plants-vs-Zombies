@@ -1,6 +1,6 @@
 #pragma once
 
-// Вспомогательные дефайны для определения где произошла ошибка 
+// Helper defines to determine where the error occurred
 #define WIDEN2(x) L##x
 #define WIDEN(x) WIDEN2(x)
 #define __WFILE__ WIDEN(__FILE__)

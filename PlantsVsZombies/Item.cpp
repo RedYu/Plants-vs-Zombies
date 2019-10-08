@@ -4,22 +4,22 @@
 
 __declspec(naked) void ItemNakedConstructor(void)
 {
-	// Так как edx свободный будем с ним и работать, и он же подойдет к __fastcall
+	// Since edx is free we will work with it, and it will also suit __fastcall
 	__asm
 	{
-		mov edx, 00432C60h			// это указатель на оригинальную функцию 
-		call edx					// вызываем сперва настоящий конструктор
+		mov edx, 00432C60h			// this is a pointer to the original function
+		call edx					// first we call the real constructor
 
-									// в ecx находится указатель на предмет
-									// точно нужно для __fastcall
+									// in ecx is a pointer to an item
+									// definitely needed for __fastcall
 
-		mov edx, eax				// передаем результат оригинальной функции
-		call Item::Constructor		// вызываем наш конструктор, 
-									// так как настоящий конструктор пропатчен, 
-									// данные в стеке сохранятся и попадук к нам
+		mov edx, eax				// pass the result of the original function
+		call Item::Constructor		// we call our constructor,
+									// since the real constructor is patched,
+									// data on the stack will be saved and get to us
 
-		mov edx, 0040F448h			// адрес возврата
-		jmp edx						// идем домой
+		mov edx, 0040F448h			// return address
+		jmp edx						// let's go home
 	}
 }
 
@@ -27,13 +27,13 @@ __declspec(naked) void ItemNakedConstructor(void)
 int __fastcall Item::Constructor(Item* pItem /* ecx */, int nResult /* edx */)
 {
 	/* 
-		Теперь мы можем делать с pItem что угодно:)
+		Now we can do anything with pItem :)
 	*/
 
-	pItem->nIsPickUp = TRUE; // Сделаем чтобы предмет автоматически подбирался, но это мне повезло с тем что есть такой параметр
-							 // Но попробуем позже перехватит функцию подбора, и заставить её работать на нас
+	pItem->nIsPickUp = TRUE; // Let's make the item automatically selected, but I was lucky with the fact that there is such a parameter
+							 // But we will try later to intercept the selection function, and make it work for us
 
-	return nResult; // Вернем на всякий случай результат оригинального конструктора
+	return nResult; // We will return just in case the result of the original constructor
 }
 
 

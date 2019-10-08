@@ -2,13 +2,13 @@
 
 void DllInitializer(HMODULE hDllModule)
 {
-	// Проверка разположения нашей библиотеки 
+	// Check the memmory space of DLL
 	if (((UINT64)hDllModule) < 0x7E000000 && ((UINT64)(&hGame)) < 0x7F000000)
 	{
-		// Провека игры PlantsVsZombies                
+		// Check the game PlantsVsZombies                
 		if (*((UINT64*)0x401000) == 0xAE76E8CE8B575553)
 		{
-			// Открываем просесс игры
+			// Open the game process
 			if ((hGame = OpenProcess(PROCESS_ALL_ACCESS | PROCESS_VM_READ | PROCESS_VM_WRITE, FALSE, GetCurrentProcessId())))
 			{
 				FixGame::Initialize();
@@ -18,19 +18,19 @@ void DllInitializer(HMODULE hDllModule)
 			}
 			else
 			{
-				Msg(_T("Ошибка при загрузке"), _T("[%s]\nНе был выдан доступ к игре"), __WFILE__);
+				Msg(_T("Load error"), _T("[%s]\nAccess to the game was not granted"), __WFILE__);
 				ExitProcess(1);
 			}
 		}
 		else
 		{
-			Msg(_T("Ошибка при загрузке"), _T("[%s]\nЭто не игра PlantsVsZombies\nИли DLL не совместима с этой версией игры"), __WFILE__);
+			Msg(_T("Load error"), _T("[%s]\nThis is not a PlantsVsZombies game \nOr DLL is not compatible with this version of the game"), __WFILE__);
 			ExitProcess(1);
 		}
 	}
 	else
 	{
-		Msg(_T("Ошибка при загрузке"), _T("[%s]\nПлохое размещение DLL в памяти"), __WFILE__);
+		Msg(_T("Load error"), _T("[%s]\nBad DLL location in the memory"), __WFILE__);
 		ExitProcess(1);
 	}
 }
